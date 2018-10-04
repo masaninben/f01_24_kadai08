@@ -1,3 +1,17 @@
+<?php
+session_start();
+//0.外部ファイル読み込み
+include('functions.php');
+chk_ssid();
+
+if($_SESSION['kanri_flg'] != 0){
+   $menu = '<a class="navbar-brand" href="user_index.php">ユーザー登録</a><a class="navbar-brand" href="user_select.php">ユーザー一覧</a>';
+}else{
+   $menu = '';
+};
+
+?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -12,17 +26,23 @@
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-    <div class="navbar-header"><a class="navbar-brand" href="select.php">データ一覧</a></div>
+      <div class="navbar-header">
+        <a class="navbar-brand" href="index.php">ブックマーク登録</a>
+        <a class="navbar-brand" href="select.php">ブックマーク一覧</a>
+        <?=$menu?>
+        <a class="navbar-brand" href="logout.php">ログアウト</a>
+      </div>
     </div>
   </nav>
 </header>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
+<legend >ブックマーク登録</legend>
 <form method="post" action="insert.php" class="form-horizontal">
   <div class="jumbotron ">
    <fieldset>
-     <legend >ブックマーク登録</legend>
+     
       <div class="form-group">
         <label class="control-label col-sm-2">タイトル：</label>
           <div class="col-sm-4">

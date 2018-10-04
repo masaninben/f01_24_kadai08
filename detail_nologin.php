@@ -1,15 +1,9 @@
 <?php
-session_start();
-//0.外部ファイル読み込み
-include('functions.php');
-chk_ssid();
-
-
 $id = $_GET["id"];
 // echo "GET:".$id;
 
 //2. DB接続します
-// include('functions.php');
+include('functions.php');
 $pdo = db_conn();
 
 //３．SELECT
@@ -18,12 +12,6 @@ $stmt->bindValue(':id', $id, PDO::PARAM_INT);
 $status = $stmt->execute();
 
 //4．データ表示
-if($_SESSION['kanri_flg'] != 0){
-   $menu = '<a class="navbar-brand" href="user_index.php">ユーザー登録</a><a class="navbar-brand" href="user_select.php">ユーザー一覧</a>';
-}else{
-   $menu = '';
-};
-
 $view="";
 if($status==false) {
     //execute（SQL実行時にエラーがある場合）
@@ -47,44 +35,36 @@ if($status==false) {
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="index.php">ブックマーク登録</a>
-        <a class="navbar-brand" href="select.php">ブックマーク一覧</a>
-        <?=$menu?>
-        <a class="navbar-brand" href="logout.php">ログアウト</a>
-      </div>
+     <div class="navbar-header">
+      <a class="navbar-brand" href="login.php">ログイン</a>
+      <a class="navbar-brand" href="select_nologin.php">ブックマーク一覧</a>
+     </div>
     </div>
   </nav>
 </header>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
-<legend >ブックマーク更新</legend>
+<legend >ブックマーク詳細</legend>
 <form method="post" action="update.php" class="form-horizontal">
   <div class="jumbotron ">
    <fieldset>
-     
       <div class="form-group">
         <label class="control-label col-sm-2">タイトル：</label>
           <div class="col-sm-4">
-            <input type="text" name="title" class="form-control" value="<?=$rs["title"]?>">
+            <?=$rs["title"]?>
           </div>
       </div> 
       <div class="form-group">   
         <label class="control-label col-sm-2">URL：</label>
           <div class="col-sm-4">
-            <input type="text" name="url" class="form-control" value="<?=$rs["url"]?>">
+            <?=$rs["url"]?>
           </div>
       </div>
       <div class="form-group">   
         <label class="control-label col-sm-2">メモ：</label>
           <div class="col-sm-4">
-            <textarea name="memo" rows="3" cols="50"><?=$rs["memo"]?></textArea>
-          </div>
-      </div>
-      <div class="form-group">
-          <div class="col-sm-offset-2 col-sm-4">
-            <input type="submit" value="登録" class="btn btn-success">
+            <?=$rs["memo"]?>
           </div>
       </div>
       <!-- idは変えたくない = ユーザーから見えないようにする-->

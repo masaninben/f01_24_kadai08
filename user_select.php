@@ -1,6 +1,11 @@
 <?php
-//1.  DB接続します
+session_start();
+//0.外部ファイル読み込み
 include('functions.php');
+chk_ssid();
+
+//1.  DB接続します
+// include('functions.php');
 $pdo = db_conn();
 
 //２．データ登録SQL作成
@@ -8,6 +13,13 @@ $stmt = $pdo->prepare('SELECT * FROM '.$table2);
 $status = $stmt->execute();
 
 //３．データ表示
+if($_SESSION['kanri_flg'] != 0){
+   $menu = '<a class="navbar-brand" href="user_index.php">ユーザー登録</a><a class="navbar-brand" href="user_select.php">ユーザー一覧</a>';
+}else{
+   header('Location: login.php');
+};
+
+
 $view="";
 if($status==false) {
     //execute（SQL実行時にエラーがある場合）
@@ -48,17 +60,24 @@ if($status==false) {
 <header>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
-      <div class="navbar-header">
-      <a class="navbar-brand" href="user_index.php">ユーザー登録</a>
-      </div>
+       <div class="navbar-header">
+        <a class="navbar-brand" href="index.php">ブックマーク登録</a>
+        <a class="navbar-brand" href="select.php">ブックマーク一覧</a>
+        <?=$menu?>
+        <a class="navbar-brand" href="logout.php">ログアウト</a>
+       </div> 
     </div>
   </nav>
 </header>
 <!-- Head[End] -->
 
 <!-- Main[Start] -->
+<legend >ユーザー一覧</legend>
 <div>
-    <div class="container jumbotron"><?=$view?></div>
+    <div class="container jumbotron">
+     <p>name : lid : lpw</p>
+     <?=$view?>
+    </div>
 </div>
 <!-- Main[End] -->
 

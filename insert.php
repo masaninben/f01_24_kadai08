@@ -32,6 +32,6 @@ if($status==false){
   errorMsg($stmt);
 }else{
   //５．index.phpへリダイレクト
-  header("Location: index.php");
+  header("Location: select.php");
 }
 ?>

@@ -1,13 +1,6 @@
 <?php
-
-session_start();
-//0.外部ファイル読み込み
-include('functions.php');
-chk_ssid();
-
-
 //1.  DB接続します
-// include('functions.php');
+include('functions.php');
 $pdo = db_conn();
 
 //２．データ登録SQL作成
@@ -15,12 +8,6 @@ $stmt = $pdo->prepare('SELECT * FROM '.$table);
 $status = $stmt->execute();
 
 //３．データ表示
-if($_SESSION['kanri_flg'] != 0){
-   $menu = '<a class="navbar-brand" href="user_index.php">ユーザー登録</a><a class="navbar-brand" href="user_select.php">ユーザー一覧</a>';
-}else{
-   $menu = '';
-};
-
 $view="";
 if($status==false) {
     //execute（SQL実行時にエラーがある場合）
@@ -31,17 +18,13 @@ if($status==false) {
   //http://php.net/manual/ja/pdostatement.fetch.php
   while( $result = $stmt->fetch(PDO::FETCH_ASSOC)){ 
     $view .= "<p>";
-    $view .= '<a href="detail.php?id='.$result["id"].'">';
+    $view .= '<a href="detail_nologin.php?id='.$result["id"].'">';
     $view .= $result["indate"]." : ".$result["title"];
-    $view .= '</a>';
-    $view .= '  ';
-    $view .= '<a href="delete.php?id='.$result["id"].'">';
-    $view .= '[削除]';
     $view .= '</a>';
     $view .= "</p>";
   }
 
-};
+}
 ?>
 
 
@@ -62,10 +45,7 @@ if($status==false) {
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand" href="index.php">ブックマーク登録</a>
-        <a class="navbar-brand" href="select.php">ブックマーク一覧</a>
-        <?=$menu?>
-        <a class="navbar-brand" href="logout.php">ログアウト</a>
+      <a class="navbar-brand" href="login.php">ログイン</a>
       </div>
     </div>
   </nav>
